@@ -4,6 +4,12 @@
 
 Demo UI here: [https://solana-fixed-rate-swap.web.app/](https://solana-fixed-rate-swap.web.app/)
 
+Dev Env: 
+  node.js : v18.20.0,
+  anchor-cli : 0.26.0
+  solana-clic : 1.17.10
+  rustc : 1.72.0  
+
 # Test
 ### Run all test
 ```
