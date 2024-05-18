@@ -6,7 +6,7 @@ mod errors;
 use instructions::*; // Must import as * to avoid error
 use crate::errors::*;
 
-declare_id!("2simM1gHuCgquAVi2B1Q4baiU6UAxkNrrHEWkfcu3RaH");
+declare_id!("EwXc7JJzABwkFUf1ZuxD72gh4BU3YttzGxos29n469TU");
 
 #[program]
 pub mod move_token {

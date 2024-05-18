@@ -3,16 +3,16 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-move_token = "2simM1gHuCgquAVi2B1Q4baiU6UAxkNrrHEWkfcu3RaH"
-simple_liquidity_pool = "J7abyCWmhnmf6aDN5ibLrbvjTYTbPbx5myDt1BQuUE9P"
+move_token = "EwXc7JJzABwkFUf1ZuxD72gh4BU3YttzGxos29n469TU"
+simple_liquidity_pool = "5X1W5dFYoDhBN24iS2t8vwDUR6y5wvDdfxT3gwG6P4hA"
 
 [programs.devnet]
-move_token = "2simM1gHuCgquAVi2B1Q4baiU6UAxkNrrHEWkfcu3RaH"
-simple_liquidity_pool = "J7abyCWmhnmf6aDN5ibLrbvjTYTbPbx5myDt1BQuUE9P"
+move_token = "EwXc7JJzABwkFUf1ZuxD72gh4BU3YttzGxos29n469TU"
+simple_liquidity_pool = "5X1W5dFYoDhBN24iS2t8vwDUR6y5wvDdfxT3gwG6P4hA"
 
 [programs.testnet]
-move_token = "2simM1gHuCgquAVi2B1Q4baiU6UAxkNrrHEWkfcu3RaH"
-simple_liquidity_pool = "J7abyCWmhnmf6aDN5ibLrbvjTYTbPbx5myDt1BQuUE9P"
+move_token = "EwXc7JJzABwkFUf1ZuxD72gh4BU3YttzGxos29n469TU"
+simple_liquidity_pool = "5X1W5dFYoDhBN24iS2t8vwDUR6y5wvDdfxT3gwG6P4hA"
 
 [registry]
 url = "https://api.apr.dev"

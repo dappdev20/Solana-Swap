@@ -5,12 +5,9 @@ use anchor_lang::{
 use anchor_spl::{
   token,
   associated_token,
-  metadata::{
-    create_metadata_accounts_v3,
-    mpl_token_metadata::types::DataV2,
-    CreateMetadataAccountsV3, 
-    Metadata as Metaplex,
-  },
+};
+use mpl_token_metadata::{
+  instruction as mpl_instruction,
 };
 
 #[constant]
@@ -44,86 +41,42 @@ pub fn create_token(
 
   // More detail: https://docs.metaplex.com/programs/token-metadata/instructions
   // Cross Program Call Depth index: 0
+  let ix = mpl_instruction::create_metadata_accounts_v3(
+    ctx.accounts.token_metadata_program.key(),
+    ctx.accounts.metadata_account.key(),
+    ctx.accounts.mint_account.key(),
+    ctx.accounts.mint_authority.key(),
+    ctx.accounts.payer.key(),
+    ctx.accounts.mint_authority.key(),
+    title,
+    symbol,
+    metadata_uri,
+    None,
+    0,
+    true, // True if an Instruction requires a Transaction signature matching pubkey.
+    true, // metadata can be modify later on
+    None,
+    None,
+    None,
+  );
+  let accounts = [
+    ctx.accounts.metadata_account.to_account_info(),
+    ctx.accounts.mint_account.to_account_info(),
+    ctx.accounts.mint_authority.to_account_info(),   // Mint Authority
+    ctx.accounts.payer.to_account_info(),   // payer
+    ctx.accounts.mint_authority.to_account_info(),   // Update Authority
+    ctx.accounts.system_program.to_account_info(),
+    ctx.accounts.rent.to_account_info(),
+  ];
 
-  // create token using mpl_token_metadata v1.3.3
-  // let ix = mpl_instruction::create_metadata_accounts_v3(
-  //   ctx.accounts.token_metadata_program.key(),
-  //   ctx.accounts.metadata_account.key(),
-  //   ctx.accounts.mint_account.key(),
-  //   ctx.accounts.mint_authority.key(),
-  //   ctx.accounts.payer.key(),
-  //   ctx.accounts.mint_authority.key(),
-  //   title,
-  //   symbol,
-  //   metadata_uri,
-  //   None,
-  //   0,
-  //   true, // True if an Instruction requires a Transaction signature matching pubkey.
-  //   true, // metadata can be modify later on
-  //   None,
-  //   None,
-  //   None,
-  // );
-  // let accounts = [
-  //   ctx.accounts.metadata_account.to_account_info(),
-  //   ctx.accounts.mint_account.to_account_info(),
-  //   ctx.accounts.mint_authority.to_account_info(),   // Mint Authority
-  //   ctx.accounts.payer.to_account_info(),   // payer
-  //   ctx.accounts.mint_authority.to_account_info(),   // Update Authority
-  //   ctx.accounts.system_program.to_account_info(),
-  //   ctx.accounts.rent.to_account_info(),
-  // ];
-
-  // let binding = ctx.accounts.mint_account.key();
-  // let seeds: &[&[&[u8]]] = &[&[
-  //   MINT_AUTH_SEED_PREFIX,
-  //   &binding.as_ref(),
-  //   &[mint_authority_pda_bump],
-  // ]];
-
-  // invoke_signed(&ix, &accounts, seeds)?;
-
-  // create token using mpl_token_metadata v4.1.2
   let binding = ctx.accounts.mint_account.key();
-  let seeds: &[&[u8]] = &[
+  let seeds: &[&[&[u8]]] = &[&[
     MINT_AUTH_SEED_PREFIX,
     &binding.as_ref(),
     &[mint_authority_pda_bump],
-  ];
-  let signer = [&seeds[..]];
-  let metadata_ctx = CpiContext::new_with_signer(
-    ctx.accounts.token_metadata_program.to_account_info(),
-    CreateMetadataAccountsV3 {
-      metadata: ctx.accounts.metadata_account.to_account_info(),
-      mint: ctx.accounts.mint_account.to_account_info(),
-      mint_authority: ctx.accounts.mint_authority.to_account_info(),
-      payer: ctx.accounts.payer.to_account_info(),
-      update_authority: ctx.accounts.mint_authority.to_account_info(),
-      system_program: ctx.accounts.system_program.to_account_info(),
-      rent: ctx.accounts.rent.to_account_info(),
-    },
-    &signer
-  );
+  ]];
 
-  let token_data: DataV2 = DataV2 {
-    name: title,
-    symbol: symbol,
-    uri: metadata_uri,
-    // we don't need that
-    seller_fee_basis_points: 0,
-    creators: None,
-    collection: None,
-    uses: None
-  };
-    
-
-  create_metadata_accounts_v3(
-    metadata_ctx,
-    token_data,
-    false,
-    true,
-    None,
-  )?;
+  invoke_signed(&ix, &accounts, seeds)?;
 
   msg!("[move_token.create_token] Init Done");
 

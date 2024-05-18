@@ -5,7 +5,7 @@ mod errors;
 use anchor_lang::prelude::*;
 use instructions::*; // Must import as * to avoid error
 
-declare_id!("J7abyCWmhnmf6aDN5ibLrbvjTYTbPbx5myDt1BQuUE9P");
+declare_id!("5X1W5dFYoDhBN24iS2t8vwDUR6y5wvDdfxT3gwG6P4hA");
 
 #[program]
 pub mod simple_liquidity_pool {

@@ -11,9 +11,9 @@ pub fn init(ctx: Context<LpInit>, fixed_rate: u32) -> Result<()> {
   let lp = &mut ctx.accounts.lp;
   // msg!("Initializing liquidity pool {:?}", lp);
 
-  let lp_bump = ctx.bumps.lp;
-  let lp_liquidity_bump = ctx.bumps.lp_liquidity;
-  let lp_fee_bump = ctx.bumps.lp_fee;
+  let lp_bump = *ctx.bumps.get("lp").unwrap();
+  let lp_liquidity_bump = *ctx.bumps.get("lp_liquidity").unwrap();
+  let lp_fee_bump = *ctx.bumps.get("lp_fee").unwrap();
   lp.init(
     spl_token::native_mint::id(),
     ctx.accounts.token_quote.key(),
